@@ -56,11 +56,22 @@ export default function SignupPage() {
   const { signUp, isLoaded } = useSignUp()
   const { isSignedIn, isLoaded: userLoaded } = useUser()
 
-  React.useEffect(() => {
-    if (userLoaded && isSignedIn) {
-      router.push("/dashboard")
-    }
-  }, [userLoaded, isSignedIn, router])
+  if (!userLoaded) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-bg-base">
+        <Loader2 className="size-8 animate-spin text-accent" />
+      </div>
+    )
+  }
+
+  if (isSignedIn) {
+    router.push("/dashboard")
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-bg-base">
+        <Loader2 className="size-8 animate-spin text-accent" />
+      </div>
+    )
+  }
 
   const [fullName, setFullName] = React.useState("")
   const [email, setEmail] = React.useState("")
