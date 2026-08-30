@@ -59,6 +59,18 @@ function LoginForm() {
       })
       if (result.status === "complete") {
         router.push("/loading?type=login")
+      } else if (result.status === "needs_first_factor") {
+        const verification = result.firstFactorVerification
+        if (verification?.emailAddressId) {
+          await signIn.prepareFirstFactor({
+            strategy: "email_code",
+            emailAddressId: verification.emailAddressId,
+          })
+          router.push(`/verify-sign-in?email=${encodeURIComponent(email)}`)
+        } else {
+          setError("Additional verification required.")
+          setLoading(false)
+        }
       } else {
         setError("Additional verification required.")
         setLoading(false)
