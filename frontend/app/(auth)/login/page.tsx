@@ -34,28 +34,25 @@ function LoginForm() {
   const { signIn, isLoaded } = useSignIn()
   const { isSignedIn, isLoaded: userLoaded } = useUser()
 
-  if (!userLoaded) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-bg-base">
-        <Loader2 className="size-8 animate-spin text-accent" />
-      </div>
-    )
-  }
-
-  if (isSignedIn) {
-    router.push("/dashboard")
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-bg-base">
-        <Loader2 className="size-8 animate-spin text-accent" />
-      </div>
-    )
-  }
-
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
   const [showPassword, setShowPassword] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(callbackError)
+
+  React.useEffect(() => {
+    if (userLoaded && isSignedIn) {
+      router.push("/dashboard")
+    }
+  }, [userLoaded, isSignedIn, router])
+
+  if (!userLoaded || isSignedIn) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-bg-base">
+        <Loader2 className="size-8 animate-spin text-accent" />
+      </div>
+    )
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()

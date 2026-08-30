@@ -56,23 +56,6 @@ export default function SignupPage() {
   const { signUp, isLoaded } = useSignUp()
   const { isSignedIn, isLoaded: userLoaded } = useUser()
 
-  if (!userLoaded) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-bg-base">
-        <Loader2 className="size-8 animate-spin text-accent" />
-      </div>
-    )
-  }
-
-  if (isSignedIn) {
-    router.push("/dashboard")
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-bg-base">
-        <Loader2 className="size-8 animate-spin text-accent" />
-      </div>
-    )
-  }
-
   const [fullName, setFullName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
@@ -81,6 +64,20 @@ export default function SignupPage() {
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
   const [agreed, setAgreed] = React.useState(false)
+
+  React.useEffect(() => {
+    if (userLoaded && isSignedIn) {
+      router.push("/dashboard")
+    }
+  }, [userLoaded, isSignedIn, router])
+
+  if (!userLoaded || isSignedIn) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-bg-base">
+        <Loader2 className="size-8 animate-spin text-accent" />
+      </div>
+    )
+  }
 
   const strength = computeStrength(password)
   const passwordsMatch = password.length > 0 && password === confirmPassword
