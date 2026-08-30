@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { useSignUp } from "@clerk/nextjs"
+import { useSignUp, useUser } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { Flame, Eye, EyeOff, AlertCircle, Loader2 } from "lucide-react"
@@ -54,6 +54,13 @@ const STRENGTH_LABELS: Record<number, string> = {
 export default function SignupPage() {
   const router = useRouter()
   const { signUp, isLoaded } = useSignUp()
+  const { isSignedIn, isLoaded: userLoaded } = useUser()
+
+  React.useEffect(() => {
+    if (userLoaded && isSignedIn) {
+      router.push("/dashboard")
+    }
+  }, [userLoaded, isSignedIn, router])
 
   const [fullName, setFullName] = React.useState("")
   const [email, setEmail] = React.useState("")

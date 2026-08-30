@@ -81,7 +81,7 @@ function VerifyEmailSentContent() {
 
     try {
       await signUp.attemptEmailAddressVerification({ code })
-      router.push("/login?verified=true")
+      router.push("/dashboard")
     } catch (err: unknown) {
       const message =
         err instanceof Error

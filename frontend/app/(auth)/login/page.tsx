@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Suspense } from "react"
 import Link from "next/link"
-import { useSignIn } from "@clerk/nextjs"
+import { useSignIn, useUser } from "@clerk/nextjs"
 import { useRouter, useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 import { Flame, Eye, EyeOff, AlertCircle, CheckCircle, Loader2 } from "lucide-react"
@@ -32,6 +32,13 @@ function LoginForm() {
   const callbackError = searchParams.get("error")
   const verified = searchParams.get("verified") === "true"
   const { signIn, isLoaded } = useSignIn()
+  const { isSignedIn, isLoaded: userLoaded } = useUser()
+
+  React.useEffect(() => {
+    if (userLoaded && isSignedIn) {
+      router.push("/dashboard")
+    }
+  }, [userLoaded, isSignedIn, router])
 
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
