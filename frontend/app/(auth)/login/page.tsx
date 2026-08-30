@@ -222,6 +222,7 @@ function LoginForm() {
                 type="email"
                 required
                 placeholder="you@company.com"
+                autoComplete="username"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="
@@ -255,6 +256,7 @@ function LoginForm() {
                   type={showPassword ? "text" : "password"}
                   required
                   placeholder="Enter your password"
+                  autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="

@@ -85,6 +85,7 @@ export default function SignupPage() {
       await signUp.create({
         emailAddress: email,
         password,
+        username: email.split("@")[0],
         firstName: fullName.split(" ")[0] || "",
         lastName: fullName.split(" ").slice(1).join(" ") || "",
       })
@@ -241,6 +242,7 @@ export default function SignupPage() {
                 type="text"
                 required
                 placeholder="John Doe"
+                autoComplete="name"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 className="
@@ -262,6 +264,7 @@ export default function SignupPage() {
                 type="email"
                 required
                 placeholder="you@company.com"
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="
@@ -284,6 +287,7 @@ export default function SignupPage() {
                   type={showPassword ? "text" : "password"}
                   required
                   placeholder="Create a strong password"
+                  autoComplete="new-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="
@@ -335,6 +339,7 @@ export default function SignupPage() {
                 type={showPassword ? "text" : "password"}
                 required
                 placeholder="Confirm your password"
+                autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className={`
